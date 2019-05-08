@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "817971688286",
+    "firebase_url": "https://genonepokedex.firebaseio.com",
+    "project_id": "genonepokedex",
+    "storage_bucket": "genonepokedex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817971688286:android:2ad67526ebccad62",
+        "android_client_info": {
+          "package_name": "hu.ait.genonepokedex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817971688286-lc6m4jud1fnqbg2ad59612fo8o8laab7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hu.ait.genonepokedex",
+            "certificate_hash": "d25b97f1fcd24b8c44117dcf059d3057edc3fe84"
+          }
+        },
+        {
+          "client_id": "817971688286-vm4a7r8l2m9p619vfaqt636ifbtosn29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnzqT9TkTbvNtcv5s5XZFe33TyqK3_Dk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817971688286-vm4a7r8l2m9p619vfaqt636ifbtosn29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
