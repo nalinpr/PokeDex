@@ -4,7 +4,7 @@ data class PokemonResults(
     val abilities: List<Abilities>?,
     val base_experience: Number?,
     val forms: List<Forms>?,
-    val game_indices: List<GameIndices>?,
+    val game_indices: List<PokeGameIndices>?,
     val height: Number?, val held_items: List<Any>?,
     val id: Number?, val is_default: Boolean?,
     val location_area_encounters: String?,
@@ -32,7 +32,7 @@ data class Forms(
     val url: String?
 )
 
-data class GameIndices(
+data class PokeGameIndices(
     val game_index: Number?,
     val version: Version?
 )
