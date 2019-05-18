@@ -23,8 +23,13 @@ class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intentDetails = Intent()
+            intentDetails.setClass(this@ScrollingActivity,
+                PopDetailsActivity::class.java)
+
+            intentDetails.putExtra(POKE_NAME, "bulbasaur")
+            intentDetails.putExtra(IMG_URL, "/")
+            startActivity(intentDetails)
         }
     }
 
