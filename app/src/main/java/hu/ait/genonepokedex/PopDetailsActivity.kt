@@ -3,6 +3,7 @@ package hu.ait.genonepokedex
 import android.app.Activity
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.WindowManager
 import hu.ait.genonepokedex.data.PokemonResults
 import hu.ait.genonepokedex.network.PokemonAPI
 import kotlinx.android.synthetic.main.activity_pop_details.*
@@ -58,7 +59,7 @@ class PopDetailsActivity : Activity() {
 
             override fun onResponse(call: Call<PokemonResults>, response: Response<PokemonResults>) {
                 val pokemonResult = response.body()
-                tvPokeName.text = name
+                tvPokeName.text = name.capitalize()
 
                 val types = pokemonResult?.types
                 types?.forEach {
