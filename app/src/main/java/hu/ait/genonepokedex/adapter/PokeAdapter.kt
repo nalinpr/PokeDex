@@ -11,6 +11,10 @@ import kotlinx.android.synthetic.main.poke_card.view.*
 
 class PokeAdapter : RecyclerView.Adapter<PokeAdapter.ViewHolder>{
 
+    interface OnPokeListener{
+        fun onPokeClick(position: Int)
+    }
+
     var pokeItems = mutableListOf<Pokemon>()
 
     private val context: Context
