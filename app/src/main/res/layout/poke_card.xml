@@ -6,38 +6,39 @@
         android:layout_height="wrap_content"
         android:id="@+id/pokeCard"
         android:layout_margin="10dp"
-        card_view:cardBackgroundColor="#fff6a0"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardBackgroundColor="#D3D3D3"
+        card_view:cardCornerRadius="8dp"
         card_view:cardElevation="4dp">
+
 
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <!--<ImageView-->
-                <!--android:id="@+id/ivAvatar"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:src="@mipmap/ic_launcher" card_view:layout_constraintEnd_toEndOf="parent"-->
-                <!--android:layout_marginEnd="8dp" android:layout_marginRight="8dp"-->
-                <!--card_view:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:layout_marginTop="8dp" card_view:layout_constraintTop_toTopOf="parent"-->
-                <!--android:layout_marginBottom="8dp" card_view:layout_constraintBottom_toBottomOf="parent"/>-->
-
-        <TextView
-                android:id="@+id/tvNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="000"
-                android:textAlignment="center"
-                android:textSize="30sp" android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                card_view:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp" card_view:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="8dp" card_view:layout_constraintTop_toTopOf="parent"
+        <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_launcher" card_view:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+                card_view:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" card_view:layout_constraintTop_toTopOf="parent"
                 android:layout_marginBottom="8dp" card_view:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!--<TextView-->
+                <!--android:id="@+id/tvNumber"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="000"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textSize="30sp" android:layout_marginTop="8dp"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--card_view:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"-->
+                <!--android:layout_marginStart="8dp" card_view:layout_constraintStart_toStartOf="parent"-->
+                <!--android:layout_marginLeft="8dp" card_view:layout_constraintTop_toTopOf="parent"-->
+                <!--android:layout_marginBottom="8dp" card_view:layout_constraintBottom_toBottomOf="parent"/>-->
 
         <!--<TextView-->
                 <!--android:id="@+id/tvName"-->

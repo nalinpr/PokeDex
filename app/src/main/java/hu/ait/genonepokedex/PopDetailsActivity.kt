@@ -64,9 +64,11 @@ class PopDetailsActivity : Activity() {
                 tvPokeName.text = pokemonResult?.name?.capitalize()
 
                 val types = pokemonResult?.types
-                types?.forEach {
-                    tvTypeResult.append(it.type?.name?.capitalize())
+                tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
+
+                for (i in 1 until types?.size!!) {
                     tvTypeResult.append(", ")
+                    tvTypeResult.append(types?.get(i)?.type?.name?.capitalize())
                 }
 
             }

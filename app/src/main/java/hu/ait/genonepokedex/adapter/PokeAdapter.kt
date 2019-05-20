@@ -23,7 +23,7 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
         for (i in 1..150){
             val poke = Pokemon (
                 i.toString(),
-                "http://pokeapi.co/media/sprites/pokemon/" + i +".png"
+                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + i + ".png"
             )
             pokeItems.add(poke)
         }
@@ -42,11 +42,11 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val poke  = pokeItems.get(viewHolder.adapterPosition)
-        viewHolder.tvNumber.text = poke.pokeNum
+//        viewHolder.tvNumber.text = poke.pokeNum
 
-//        Glide.with(context as ScrollingActivity)
-//            .load(poke.imgUrl)
-//            .into(viewHolder.imgPoke)
+        Glide.with(context)
+            .load(poke.imgUrl)
+            .into(viewHolder.imgPoke)
 
         viewHolder.itemView.setOnClickListener{
             (context as ScrollingActivity).runOnUiThread {
@@ -55,8 +55,8 @@ class PokeAdapter(private val context: Context) : RecyclerView.Adapter<PokeAdapt
         }    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-//        var imgPoke = itemView.ivAvatar
-        var tvNumber = itemView.tvNumber
+        var imgPoke = itemView.ivAvatar
+//        var tvNumber = itemView.tvNumber
 
     }
 }
