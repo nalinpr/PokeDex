@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "817971688286-97a8fkshpjthiqhvkb8n5ucbc4bqlh5t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hu.ait.genonepokedex",
+            "certificate_hash": "31e49cc762b5ffc5d90c77df253e94ec52f4d4e2"
+          }
+        },
+        {
           "client_id": "817971688286-lc6m4jud1fnqbg2ad59612fo8o8laab7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

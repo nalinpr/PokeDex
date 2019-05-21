@@ -16,6 +16,7 @@ class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
     companion object {
         val POKE_NAME = "POKE_NAME"
         val IMG_URL = "IMG_URL"
+        val POKE_NUM = "POKE_NUM"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,7 @@ class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
 
             intentDetails.putExtra(POKE_NAME, "bulbasaur")
             intentDetails.putExtra(IMG_URL, "/")
+            intentDetails.putExtra(POKE_NUM, "001")
             startActivity(intentDetails)
         }
     }
