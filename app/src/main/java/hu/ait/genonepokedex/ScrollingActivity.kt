@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.poke_card.*
 class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
 
     companion object {
-        val IMG_URL = "IMG_URL"
         val POKE_NUM = "POKE_NUM"
     }
 
@@ -73,7 +72,6 @@ class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
         intentDetails.setClass(this@ScrollingActivity,
             PopDetailsActivity::class.java)
 
-        intentDetails.putExtra(IMG_URL, poke.imgUrl)
         intentDetails.putExtra(POKE_NUM, poke.pokeNum)
         startActivity(intentDetails)
     }
