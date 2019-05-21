@@ -23,34 +23,36 @@ import java.io.ByteArrayOutputStream
 
 class PopDetailsActivity : Activity() {
 
-    private val HOST_URL = "https://pokeapi.co/"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pop_details)
+        setWindow()
 
+        var num = ""
+        var imgUrl = ""
+
+        if (intent.extras.containsKey(ScrollingActivity.POKE_NUM) && intent.extras.containsKey(ScrollingActivity.IMG_URL)) {
+            num = intent.getStringExtra(ScrollingActivity.POKE_NUM)
+            imgUrl = intent.getStringExtra(ScrollingActivity.IMG_URL)
+        }
+
+        pokeCall(num)
+
+    }
+
+    private fun setWindow() {
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
 
         val width = (dm.widthPixels * 0.9).toInt()
-        val height = (dm.heightPixels *0.8).toInt()
+        val height = (dm.heightPixels * 0.8).toInt()
 
         window.setLayout(width, height)
-
-        pokeCall()
-
     }
 
-    private fun pokeCall() {
-        var name = ""
-        var num = ""
-        var imgUrl = ""
 
-        if (intent.extras.containsKey(ScrollingActivity.POKE_NAME) && intent.extras.containsKey(ScrollingActivity.IMG_URL)) {
-            name = intent.getStringExtra(ScrollingActivity.POKE_NAME)
-            num = intent.getStringExtra(ScrollingActivity.POKE_NUM)
-            imgUrl = intent.getStringExtra(ScrollingActivity.IMG_URL)
-        }
+    private fun pokeCall(num: String) {
+        val HOST_URL = "https://pokeapi.co/"
 
         val retrofit = Retrofit.Builder()
             .baseUrl(HOST_URL)
@@ -59,7 +61,7 @@ class PopDetailsActivity : Activity() {
 
         val pokemonAPI = retrofit.create(PokemonAPI::class.java)
 
-        val pokemonResultCall = pokemonAPI.getPokeDetails(name)
+        val pokemonResultCall = pokemonAPI.getPokeDetails(num)
 
         val baos = ByteArrayOutputStream()
         val imageInBytes = baos.toByteArray()
@@ -77,12 +79,14 @@ class PopDetailsActivity : Activity() {
 
             override fun onResponse(call: Call<PokemonResults>, response: Response<PokemonResults>) {
                 val pokemonResult = response.body()
-                tvPokeName.text = name.capitalize()
+                tvPokeName.text = pokemonResult?.name?.capitalize()
 
                 val types = pokemonResult?.types
-                types?.forEach {
-                    tvTypeResult.append(it.type?.name)
+                tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
+
+                for (i in 1 until types?.size!!) {
                     tvTypeResult.append(", ")
+                    tvTypeResult.append(types?.get(i)?.type?.name?.capitalize())
                 }
 
                 imageRef.putBytes(imageInBytes)
