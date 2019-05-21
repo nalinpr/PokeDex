@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.poke_card.*
 class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
 
     companion object {
-        val POKE_NUM = "POKE_NUM"
         val IMG_URL = "IMG_URL"
         val POKE_NUM = "POKE_NUM"
     }
