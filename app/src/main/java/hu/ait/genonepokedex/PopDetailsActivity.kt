@@ -85,19 +85,12 @@ class PopDetailsActivity : Activity() {
                     tvTypeResult.append(", ")
                 }
 
-                imageRef.putBytes(imageInBytes)
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(this@PopDetailsActivity, exception.message, Toast.LENGTH_SHORT).show()
-                    }.addOnSuccessListener { taskSnapshot ->
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-
-                        imageRef.downloadUrl.addOnCompleteListener(object: OnCompleteListener<Uri> {
-                            override fun onComplete(task: Task<Uri>) {
-                                Glide.with(this@PopDetailsActivity)
-                                    .load(task.result.toString()).into(ivPokeImage)
-                            }
-                        })
+                imageRef.downloadUrl.addOnCompleteListener(object: OnCompleteListener<Uri> {
+                    override fun onComplete(task: Task<Uri>) {
+                        Glide.with(this@PopDetailsActivity)
+                            .load(task.result.toString()).into(ivPokeImage)
                     }
+                })
 
 
 
