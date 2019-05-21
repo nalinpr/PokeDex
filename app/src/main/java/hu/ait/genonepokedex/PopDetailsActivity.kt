@@ -14,15 +14,19 @@ import kotlinx.android.synthetic.main.activity_pop_details.*
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import hu.ait.genonepokedex.data.TypeResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
+import android.content.Intent
+
+
 
 class PopDetailsActivity : Activity() {
+
+    lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +43,11 @@ class PopDetailsActivity : Activity() {
 
         pokeCall(num)
 
+        btnBulb.setOnClickListener {
+            val url = "https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)"
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }
     }
 
     private fun setWindow() {
@@ -64,7 +73,6 @@ class PopDetailsActivity : Activity() {
 
         val pokemonResultCall = pokemonAPI.getPokeDetails(num)
 
-
         val baos = ByteArrayOutputStream()
         val imageInBytes = baos.toByteArray()
         val storage = FirebaseStorage.getInstance()
@@ -81,7 +89,6 @@ class PopDetailsActivity : Activity() {
             file = num
         }
         val imageRef = pokeImagesRef.child("$file.png")
-
         var typeArray = ArrayList<String>()
 
 
@@ -94,6 +101,7 @@ class PopDetailsActivity : Activity() {
             override fun onResponse(call: Call<PokemonResults>, response: Response<PokemonResults>) {
                 val pokemonResult = response.body()
                 tvPokeName.text = pokemonResult?.name?.capitalize()
+                name = pokemonResult?.name?.capitalize().toString()
 
                 val types = pokemonResult?.types
                 tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
@@ -101,10 +109,10 @@ class PopDetailsActivity : Activity() {
 
                 for (i in 1 until types?.size!!) {
                     tvTypeResult.append(", ")
-                    tvTypeResult.append(types[i].type?.name?.capitalize())
+                    tvTypeResult.append(types?.get(i)?.type?.name?.capitalize())
                     typeArray.add(types[i].type?.name!!)
                 }
-
+              
                 typeCall(typeArray, pokemonAPI)
 
                 imageRef.downloadUrl.addOnCompleteListener(object: OnCompleteListener<Uri> {
@@ -114,12 +122,13 @@ class PopDetailsActivity : Activity() {
                     }
                 })
 
+
+
             }
         })
-
     }
-
-    private fun typeCall(typeArray: ArrayList<String>, pokemonAPI: PokemonAPI) {
+  
+  private fun typeCall(typeArray: ArrayList<String>, pokemonAPI: PokemonAPI) {
         for (i in typeArray) {
             val typeResultCall = pokemonAPI.getPokeType(i)
 
@@ -148,6 +157,4 @@ class PopDetailsActivity : Activity() {
             })
         }
     }
-
 }
-
