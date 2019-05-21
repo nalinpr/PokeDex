@@ -20,8 +20,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
+import android.content.Intent
+
+
 
 class PopDetailsActivity : Activity() {
+
+    lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,11 @@ class PopDetailsActivity : Activity() {
 
         pokeCall(num)
 
+        btnBulb.setOnClickListener {
+            val url = "https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)"
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }
     }
 
     private fun setWindow() {
@@ -90,6 +100,7 @@ class PopDetailsActivity : Activity() {
             override fun onResponse(call: Call<PokemonResults>, response: Response<PokemonResults>) {
                 val pokemonResult = response.body()
                 tvPokeName.text = pokemonResult?.name?.capitalize()
+                name = pokemonResult?.name?.capitalize().toString()
 
                 val types = pokemonResult?.types
                 tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
@@ -112,4 +123,3 @@ class PopDetailsActivity : Activity() {
         })
     }
 }
-
