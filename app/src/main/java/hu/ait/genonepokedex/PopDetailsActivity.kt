@@ -89,6 +89,7 @@ class PopDetailsActivity : Activity() {
             file = num
         }
         val imageRef = pokeImagesRef.child("$file.png")
+        var typeArray = ArrayList<String>()
 
 
         pokemonResultCall.enqueue(object : Callback<PokemonResults> {
@@ -104,11 +105,15 @@ class PopDetailsActivity : Activity() {
 
                 val types = pokemonResult?.types
                 tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
+                typeArray.add(types?.get(0)?.type?.name!!)
 
                 for (i in 1 until types?.size!!) {
                     tvTypeResult.append(", ")
                     tvTypeResult.append(types?.get(i)?.type?.name?.capitalize())
+                    typeArray.add(types[i].type?.name!!)
                 }
+              
+                typeCall(typeArray, pokemonAPI)
 
                 imageRef.downloadUrl.addOnCompleteListener(object: OnCompleteListener<Uri> {
                     override fun onComplete(task: Task<Uri>) {
@@ -121,5 +126,35 @@ class PopDetailsActivity : Activity() {
 
             }
         })
+    }
+  
+  private fun typeCall(typeArray: ArrayList<String>, pokemonAPI: PokemonAPI) {
+        for (i in typeArray) {
+            val typeResultCall = pokemonAPI.getPokeType(i)
+
+            typeResultCall.enqueue(object : Callback<TypeResults> {
+                override fun onFailure(call: Call<TypeResults>, t: Throwable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onResponse(call: Call<TypeResults>, response: Response<TypeResults>) {
+                    val typeResult = response.body()
+
+                    val vulnerable = typeResult?.damage_relations?.double_damage_from
+                    val effective = typeResult?.damage_relations?.double_damage_to
+
+                    for (type in 0 until vulnerable?.size!!) {
+                        tvVulnerableResults.append(vulnerable[type].name?.capitalize())
+                        tvVulnerableResults.append(", ")
+                    }
+
+                    for (type in 0 until effective?.size!!) {
+                        tvEffectiveResults.append(effective[type].name?.capitalize())
+                        tvEffectiveResults.append(", ")
+                    }
+
+                }
+            })
+        }
     }
 }
