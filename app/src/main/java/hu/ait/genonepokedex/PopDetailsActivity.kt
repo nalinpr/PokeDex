@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_pop_details.*
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import hu.ait.genonepokedex.data.TypeResults
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,6 +64,7 @@ class PopDetailsActivity : Activity() {
 
         val pokemonResultCall = pokemonAPI.getPokeDetails(num)
 
+
         val baos = ByteArrayOutputStream()
         val imageInBytes = baos.toByteArray()
         val storage = FirebaseStorage.getInstance()
@@ -80,6 +82,8 @@ class PopDetailsActivity : Activity() {
         }
         val imageRef = pokeImagesRef.child("$file.png")
 
+        var typeArray = ArrayList<String>()
+
 
         pokemonResultCall.enqueue(object : Callback<PokemonResults> {
 
@@ -93,11 +97,15 @@ class PopDetailsActivity : Activity() {
 
                 val types = pokemonResult?.types
                 tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
+                typeArray.add(types?.get(0)?.type?.name!!)
 
                 for (i in 1 until types?.size!!) {
                     tvTypeResult.append(", ")
-                    tvTypeResult.append(types?.get(i)?.type?.name?.capitalize())
+                    tvTypeResult.append(types[i].type?.name?.capitalize())
+                    typeArray.add(types[i].type?.name!!)
                 }
+
+                typeCall(typeArray, pokemonAPI)
 
                 imageRef.downloadUrl.addOnCompleteListener(object: OnCompleteListener<Uri> {
                     override fun onComplete(task: Task<Uri>) {
@@ -106,10 +114,40 @@ class PopDetailsActivity : Activity() {
                     }
                 })
 
-
-
             }
         })
+
     }
+
+    private fun typeCall(typeArray: ArrayList<String>, pokemonAPI: PokemonAPI) {
+        for (i in typeArray) {
+            val typeResultCall = pokemonAPI.getPokeType(i)
+
+            typeResultCall.enqueue(object : Callback<TypeResults> {
+                override fun onFailure(call: Call<TypeResults>, t: Throwable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onResponse(call: Call<TypeResults>, response: Response<TypeResults>) {
+                    val typeResult = response.body()
+
+                    val vulnerable = typeResult?.damage_relations?.double_damage_from
+                    val effective = typeResult?.damage_relations?.double_damage_to
+
+                    for (type in 0 until vulnerable?.size!!) {
+                        tvVulnerableResults.append(vulnerable[type].name?.capitalize())
+                        tvVulnerableResults.append(", ")
+                    }
+
+                    for (type in 0 until effective?.size!!) {
+                        tvEffectiveResults.append(effective[type].name?.capitalize())
+                        tvEffectiveResults.append(", ")
+                    }
+
+                }
+            })
+        }
+    }
+
 }
 
