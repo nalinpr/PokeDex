@@ -4,10 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.net.Uri
-import android.view.WindowManager
-import android.widget.Toast
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import hu.ait.genonepokedex.data.PokemonResults
 import hu.ait.genonepokedex.network.PokemonAPI
 import kotlinx.android.synthetic.main.activity_pop_details.*
@@ -21,7 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import android.content.Intent
-
+import hu.ait.genonepokedex.data.TypeResults
 
 
 class PopDetailsActivity : Activity() {
@@ -34,11 +31,9 @@ class PopDetailsActivity : Activity() {
         setWindow()
 
         var num = ""
-        var imgUrl = ""
 
-        if (intent.extras.containsKey(ScrollingActivity.POKE_NUM) && intent.extras.containsKey(ScrollingActivity.IMG_URL)) {
+        if (intent.extras.containsKey(ScrollingActivity.POKE_NUM)) {
             num = intent.getStringExtra(ScrollingActivity.POKE_NUM)
-            imgUrl = intent.getStringExtra(ScrollingActivity.IMG_URL)
         }
 
         pokeCall(num)
@@ -48,6 +43,8 @@ class PopDetailsActivity : Activity() {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(browserIntent)
         }
+
+
     }
 
     private fun setWindow() {
@@ -107,9 +104,9 @@ class PopDetailsActivity : Activity() {
                 tvTypeResult.append(types?.get(0)?.type?.name?.capitalize())
                 typeArray.add(types?.get(0)?.type?.name!!)
 
-                for (i in 1 until types?.size!!) {
+                for (i in 1 until types.size) {
                     tvTypeResult.append(", ")
-                    tvTypeResult.append(types?.get(i)?.type?.name?.capitalize())
+                    tvTypeResult.append(types[i].type?.name?.capitalize())
                     typeArray.add(types[i].type?.name!!)
                 }
               
@@ -121,20 +118,19 @@ class PopDetailsActivity : Activity() {
                             .load(task.result.toString()).into(ivPokeImage)
                     }
                 })
-
-
-
             }
+
         })
+
     }
   
   private fun typeCall(typeArray: ArrayList<String>, pokemonAPI: PokemonAPI) {
-        for (i in typeArray) {
-            val typeResultCall = pokemonAPI.getPokeType(i)
+        for (i in 0 until typeArray.size) {
+            val type = typeArray.get(i)
+            val typeResultCall = pokemonAPI.getPokeType(type)
 
             typeResultCall.enqueue(object : Callback<TypeResults> {
                 override fun onFailure(call: Call<TypeResults>, t: Throwable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
                 override fun onResponse(call: Call<TypeResults>, response: Response<TypeResults>) {
@@ -143,18 +139,33 @@ class PopDetailsActivity : Activity() {
                     val vulnerable = typeResult?.damage_relations?.double_damage_from
                     val effective = typeResult?.damage_relations?.double_damage_to
 
-                    for (type in 0 until vulnerable?.size!!) {
-                        tvVulnerableResults.append(vulnerable[type].name?.capitalize())
-                        tvVulnerableResults.append(", ")
+                    for (j in 0 until vulnerable?.size!!) {
+                        val checkString = tvVulnerableResults.text
+                        val typeName = vulnerable[j].name?.capitalize()
+
+                        if (typeName.toString() !in checkString) {
+                            tvVulnerableResults.append(typeName)
+                            tvVulnerableResults.append(", ")
+                        }
+
                     }
 
-                    for (type in 0 until effective?.size!!) {
-                        tvEffectiveResults.append(effective[type].name?.capitalize())
-                        tvEffectiveResults.append(", ")
+                    for (j in 0 until effective?.size!!) {
+                        val checkString = tvEffectiveResults.text
+                        val typeName = effective[j].name?.capitalize()
+
+                        if (typeName.toString() !in checkString) {
+                            tvEffectiveResults.append(effective[j].name?.capitalize())
+                            tvEffectiveResults.append(", ")
+                        }
+
                     }
 
                 }
+
             })
         }
+
+
     }
 }
