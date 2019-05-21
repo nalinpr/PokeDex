@@ -19,6 +19,7 @@ class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
     companion object {
         val POKE_NUM = "POKE_NUM"
         val IMG_URL = "IMG_URL"
+        val POKE_NUM = "POKE_NUM"
     }
 
     lateinit var pokeAdapter : PokeAdapter
@@ -27,6 +28,7 @@ class ScrollingActivity : AppCompatActivity(), PokeAdapter.OnPokeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
+
 //        fab.setOnClickListener { view ->
 //            val intentDetails = Intent()
 //            intentDetails.setClass(this@ScrollingActivity,
